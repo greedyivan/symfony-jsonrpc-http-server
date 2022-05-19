@@ -23,6 +23,8 @@ See [yoanm/symfony-jsonrpc-http-server-doc](https://github.com/yoanm/symfony-jso
 
 - Symfony v4/5 - PHP >=7.2 : `^v3.0`
 
+- Symfony v6 - PHP >=8.0 : `^v4.0`
+
 ## How to use
 
 Once configured, your project is ready to handle HTTP `POST` request on `/json-rpc` endpoint.

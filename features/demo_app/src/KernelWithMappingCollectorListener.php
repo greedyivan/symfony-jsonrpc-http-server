@@ -3,7 +3,8 @@ namespace DemoApp;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class KernelWithMappingCollectorListener extends AbstractKernel
 {
@@ -21,9 +22,12 @@ class KernelWithMappingCollectorListener extends AbstractKernel
     /**
      * {@inheritdoc}
      */
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
-    {
-        $container->setParameter('container.dumper.inline_class_loader', true);
+    protected function configureContainer(
+        ContainerConfigurator $container,
+        LoaderInterface $loader,
+        ContainerBuilder $builder
+    ): void {
+        $builder->setParameter('container.dumper.inline_class_loader', true);
         $confDir = $this->getProjectDir().'/'.$this->getConfigDirectory();
         $loader->load($confDir.'/config'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
@@ -32,10 +36,10 @@ class KernelWithMappingCollectorListener extends AbstractKernel
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RoutingConfigurator $routes)
     {
         $confDir = $this->getProjectDir().'/'.$this->getConfigDirectory();
-        $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir.'/routes'.self::CONFIG_EXTS, 'glob');
     }
 
     /**
